@@ -1,5 +1,22 @@
-import random
-import time
+devcInfo = {'capfp': {},
+            'cd': '24',
+            'cpu': '20',
+            'cvs': 'b8af64bcaaf7285873eb89cf7df48484',
+            'fts': 'Arial,Calibri,Cambria,Consolas,Courier,CourierNew,Georgia,Helvetica,Impact,LucidaConsole,LucidaSansUnicode,MSGothic,MSPGothic,PalatinoLinotype,SegoePrint,SegoeScript,SegoeUI,Tahoma,Times,TimesNewRoman,TrebuchetMS,Verdana,Wingdings,Symbol,Candara,Constantia,Corbel,Ebrima,FangSong,Gabriola,MicrosoftYaHei,MicrosoftYiBaiti,MingLiUExtB,PMingLiUExtB,SimHei,SimSun,SimSunExtB',
+            'fv': '',
+            'lan': 'zh-CN',
+            'lns': 'zh-CN,zh',
+            'mem': 8,
+            'pr': '1',
+            'pt': 'Win32',
+            'scr': '1920x1080,1920x1032',
+            'sdv': '2.0',
+            'tsp': '0',
+            'tzo': 'Asia/Shanghai',
+            'wdr': False,
+            'wgl': '1eca15a225dcee18245e9f23267dcfba',
+            'wvr': 'Google Inc. (Intel)~ANGLE (Intel, Intel(R) UHD Graphics 770 (0x00004680) Direct3D11 vs_5_0 ps_5_0, D3D11)'
+            }
 
 state = {
     "canceled": False,
@@ -10,8 +27,8 @@ state = {
     "captchaType": 0,
     "isAppDisplayEmbed": False,
     "appId": "",
-    "md5Salt": "dzHdg!axOg537gYr3zf&dSrvm@t4a+8F", # js 固定值?
-    "sessionId": "JbWImgABAAAGMkrAw2sAMNxTs2D5Axxt3dU_7n5OZLar7YGQyCkT-_oA8ndZMag9-61zSynmd7IiGztFUMXyPAAA", # 来自接口
+    "md5Salt": "dzHdg!axOg537gYr3zf&dSrvm@t4a+8F",  # js 固定值?
+    "sessionId": "JbWImgABAAAGMkrAw2sAMNxTs2D5Axxt3dU_7n5OZLar7YGQyCkT-_oA8ndZMag9-61zSynmd7IiGztFUMXyPAAA",  # 来自接口
     "width": 0,
     "language": 1,
     "account": None,
@@ -20,7 +37,7 @@ state = {
     "pin": None,
     "display": "popup",
     "host": "https://captcha-api-global.jdcloud.com",
-    "tdat_code": 57972,
+    "tdat_code": 57972,  # 固定值
     "platformType": 1,
     "langMap": {
         "code_1": "点击完成验证",
@@ -90,31 +107,32 @@ state = {
         "check": "/cgi-bin/api/check",
         "v": 20180110
     },
-    "tdat_ctx": "13130303032393939393530303032433633434132303831443330323343393136403932353331403832463337354233303031313030303", # 来自js
+    "tdat_ctx": "13130303032393939393530303032433633434132303831443330323343393136403932353331403832463337354233303031313030303",
+    # 来自js
     "isMouseMove": False,
     "isInitOnload": False,
     "sen": 0,
-    "appid": 360472534,# 来自接口
-    "sceneid": 1016966843 # 来自接口
+    "appid": 360472534,  # 来自接口
+    "sceneid": 1016966843  # 来自接口
 }
 
 import math
 import random
+
 
 def random_str(length):
     e = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
          "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     n = ''
     for i in range(length):
-        n += e[math.floor(35*random.random())]
+        n += e[math.floor(35 * random.random())]
     return n
 
 
 from utils import js_now
 
 
-
-def fp_payload(t:dict):
+def fp_payload(t: dict):
     e = js_now()
     n = e % 19
     r = t.appId
@@ -137,64 +155,11 @@ def fp_payload(t:dict):
             'md5Salt': o
         }
     }
-    # d['ct'] = G(random_str(n) + str(len(d['si'])).zfill(4)) + d['si'] + c + e, s, l)
-
-
-def prepare_std_string(e, use_utf8=True):
-    """
-    模拟 JS 代码逻辑：将输入转换为字节流并计算长度。
-    e: 输入数据 (str, bytes, bytearray, 或 array.array)
-    use_utf8: 对应原代码中的变量 'c'
-    """
-
-    # 1. 处理类似 ArrayBuffer 的输入
-    if isinstance(e, (bytes, bytearray)):
-        data_bytes = e
-        is_string = False
-    elif isinstance(e, str):
-        data_bytes = e
-        is_string = True
-    else:
-        raise TypeError("Cannot pass non-string/non-bytes to std::string")
-
-    # 2. 计算长度 (变量 'l')
-    if use_utf8 and is_string:
-        # 对应原代码中复杂的 charCodeAt 循环（即 UTF-8 编码后的字节数）
-        encoded_data = data_bytes.encode('utf-8')
-        length = len(encoded_data)
-    elif is_string:
-        # 对应原代码中检查 255 < h 的逻辑：仅支持 ASCII/Latin-1
-        try:
-            encoded_data = data_bytes.encode('latin-1')
-            length = len(encoded_data)
-        except UnicodeEncodeError:
-            raise ValueError("String has UTF-16 code units that do not fit in 8 bits")
-    else:
-        # 处理 TypedArray/Bytes 情况
-        encoded_data = data_bytes
-        length = len(data_bytes)
-
-    # 3. 模拟内存分配 (变量 'k')
-    # Emscripten 布局: [4字节长度头] + [实际数据] + [1字节空终止符 \0]
-    # k >> 2 存储的是长度
-    memory_block = bytearray(4)  # 模拟 N[k >> 2] = l
-
-    # 将长度转为 4 字节小端序（模拟 C++ 整数存储）
-    import struct
-    memory_block = bytearray(struct.pack('<I', length))
-
-    # 4. 填充数据 (模拟 I[k + 4 + g] = ...)
-    memory_block.extend(encoded_data)
-
-    # 5. 添加空终止符 (l + 1 中的 +1)
-    memory_block.append(0)
-
-    return memory_block
+    d['ct'] = G(random_str(n) + str(len(d['si'])).zfill(4)) + d['si'] + c + e, s, l)
 
 
 if __name__ == '__main__':
     arg0 = "hs6ro0088I_T2VgABAAABy6-h_l0AMHga9Ncu-SrOIxWXEP5ZzqVv_Gb3XzB1MmAWrYl_pBZd9vfgjZWBQ6CU8Npct4B6rAAA{\"capfp\":{},\"cvs\":\"b8af64bcaaf7285873eb89cf7df48484\",\"wgl\":\"1eca15a225dcee18245e9f23267dcfba\",\"pr\":\"1\",\"cd\":\"24\",\"fv\":\"\",\"fts\":\"Arial,Calibri,Cambria,Consolas,Courier,CourierNew,Georgia,Helvetica,Impact,LucidaConsole,LucidaSansUnicode,MSGothic,MSPGothic,PalatinoLinotype,SegoePrint,SegoeScript,SegoeUI,Tahoma,Times,TimesNewRoman,TrebuchetMS,Verdana,Wingdings,Symbol,Candara,Constantia,Corbel,Ebrima,FangSong,Gabriola,MicrosoftYaHei,MicrosoftYiBaiti,MingLiUExtB,PMingLiUExtB,SimHei,SimSun,SimSunExtB\",\"scr\":\"1920x1080,1920x1032\",\"cpu\":\"20\",\"pt\":\"Win32\",\"tzo\":\"Asia/Shanghai\",\"lan\":\"zh-CN\",\"wvr\":\"Google Inc. (Intel)~ANGLE (Intel, Intel(R) UHD Graphics 770 (0x00004680) Direct3D11 vs_5_0 ps_5_0, D3D11)\",\"wdr\":false,\"mem\":8,\"sdv\":\"2.0\",\"lns\":\"zh-CN,zh\",\"tsp\":\"0\"}1767087174000"
-    arg0_result  = prepare_std_string(arg0)
     assert arg0_result == arg0
     print(arg0_result)
     arg1 = "13130303032393939393530303032433633434132303831443330323343393136403932353331403832463337354233303031313030303"
