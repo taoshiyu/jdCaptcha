@@ -1,6 +1,7 @@
 const path = require('path');
 const f = require('./jcap_20201228.js'); // 确保路径正确
 
+console.log('bridge run')
 // 监听标准输入
 const readline = require('readline');
 const rl = readline.createInterface({

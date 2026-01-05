@@ -17,7 +17,6 @@ import torch
 from torch.utils.data import DataLoader
 from model import SiameseNet
 from dataset import PairDataset
-from loss import ContrastiveLoss
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -29,18 +28,16 @@ criterion = ContrastiveLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 
 for epoch in range(20):
+    print("epoch", epoch)
     total_loss = 0
     for x1, x2, y in loader:
         x1, x2 = x1.to(device), x2.to(device)
         y = y.float().to(device)
-
         e1, e2 = model(x1, x2)
         loss = criterion(e1, e2, y)
-
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-
         total_loss += loss.item()
 
     print(f"Epoch {epoch}: loss={total_loss/len(loader):.4f}")

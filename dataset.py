@@ -11,7 +11,7 @@ class PairDataset(Dataset):
                 self.pairs.append((a, b, int(y)))
 
         self.transform = T.Compose([
-            T.Resize((224, 224)),
+            T.Resize((100, 100)),
             T.RandomHorizontalFlip(),
             T.ColorJitter(0.2, 0.2, 0.2),
             T.ToTensor(),

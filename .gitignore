@@ -1,0 +1,10 @@
+/logs
+.idea
+.venv
+**/__pycache__
+.vscode
+/node_modules
+package-lock.json
+package.json
+celerybeat-schedule.*
+/data

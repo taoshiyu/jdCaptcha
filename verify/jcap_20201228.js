@@ -1,3 +1,5 @@
+console.log('jcap run')
+
 const window = global
 var f;
 f || (f = typeof Module !== 'undefined' ? Module : {});
