@@ -1,0 +1,26 @@
+#version: '3'
+services:
+
+  captcha_solver:
+    image: captcha:latest
+    container_name: captcha_solver
+    logging:
+      driver: "json-file"   #默认的文件日志驱动
+      options:
+        max-size: "1000m"
+        max-file: "1"
+    volumes:
+      - .:/app
+    environment:
+      - TZ=Asia/Shanghai
+      - PYTHONPATH=/app
+    ports:
+      - 5051:5051
+    restart: always
+    command: python app.py
+
+
+networks:
+  default:
+    external:
+      name: captcha

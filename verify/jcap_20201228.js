@@ -13010,15 +13010,101 @@ if (f.preInit)
 noExitRuntime = !0;
 Gb();
 
+function getEncryptDataWithDelay(arg0, arg1, delay = 1) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            try {
+                const result = f.getEncryptData(arg0, arg1);
+                resolve(result);
+            } catch (error) {
+                reject(error);
+            }
+        }, delay);
+    });
+}
+function getEncryptAuthWithDelay(arg0, arg1, delay = 1) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            try {
+                const result = f.getCaptchaAuth(arg0, arg1);
+                resolve(result);
+            } catch (error) {
+                reject(error);
+            }
+        }, delay);
+    });
+}
+function getEncryptDataSync(arg0, arg1) {
+    let result = null;
+    let error = null;
+    let done = false;
 
-// setTimeout(
-//     function(){
-//         arg0 = 'w0088DbqFeQABAAACvgOGCQgAMOZiKheOsMR5riuXLEITICQEXpnzQpK9y_R0ushvS5mJre77SNJ1TNyoTSQIVzu6RQAA{"capfp":{},"cvs":"b8af64bcaaf7285873eb89cf7df48484","wgl":"1eca15a225dcee18245e9f23267dcfba","pr":"1","cd":"24","fv":"","fts":"Arial,Calibri,Cambria,Consolas,Courier,CourierNew,Georgia,Helvetica,Impact,LucidaConsole,LucidaSansUnicode,MSGothic,MSPGothic,PalatinoLinotype,SegoePrint,SegoeScript,SegoeUI,Tahoma,Times,TimesNewRoman,TrebuchetMS,Verdana,Wingdings,Symbol,Candara,Constantia,Corbel,Ebrima,FangSong,Gabriola,MicrosoftYaHei,MicrosoftYiBaiti,MingLiUExtB,PMingLiUExtB,SimHei,SimSun,SimSunExtB","scr":"1920x1080,1920x1032","cpu":"20","pt":"Win32","tzo":"Asia/Shanghai","lan":"zh-CN","wvr":"Google Inc. (Intel)~ANGLE (Intel, Intel(R) UHD Graphics 770 (0x00004680) Direct3D11 vs_5_0 ps_5_0, D3D11)","wdr":false,"mem":8,"sdv":"2.0","lns":"zh-CN,zh","tsp":"0"}1767163180000'
-//         arg1 = "13130303032393939393530303032433633434132303831443330323343393136403932353331403832463337354233303031313030303"
-//         ret = f.getEncryptData(arg0,arg1)
-//         console.log(ret.data==='iD0cT4_0AxlmIbw963dZ-toMgl5xRK9oXdBY8f8GelosJtyfC9i4c3m3VSj9rmJpu2grQjyRPYo_\nDIZRkqQNYJAjSSgM3f9HeK2ccFjV5_iDAKm-f5ScwMrxoVjeavnUs_EBxhDdh6BEJr2M56lV3fsj\nfTMpYY1w9pS-jwTTVGfu71R1QOsPOyqEbU2JGWj5n6V2NQeJBIHWYzWOJ5DkPHCxVKzvwmozmws2\napsaoqKDyMLIXHV2MxPC3PgaXAt3GLJu-i8_Bu0TKQa79jXnaS7AqcCZe_z05ExDNus3jOslmWgm\n9-2_Z0frnK8C3oiLyTjxtT6-ugqFhZcKqzvCksqCo3L6DJvlqWtwR7RuD_TsViHJ_azAE0-Rb-Oc\n3fu-G4WCdvVogt9LV_L4IOtbRp3yoyXLoKhwUiaIIUdGIx83sV3-0M7aQqiuVDquJHkWjTWBk6dN\nZ76I0sntLPCXj_YzeKZpWpT1A6vzikCuFgX270Rut18kdPxUqtCCLX2xnLeghH_YqDFAJYcwd921\n3XViq6Bpn379-H4Kh9Wyb2v9iLv3Dzu1LfrcMXIDCPCAkWqIMT88aSt9Y3aF-juBuxbFqqnqg2Ak\nZsqHSRdG3MlPr1yiMor6V_IIOOGT7mymubmpAiU2DfoORW5J2m4xzJwjbcap4MVIjmV68WhyPIPj\nVWSgxE0TVSD8UAgn0zg7R3IxUOHRcoDwPC0XuH54NNoOCNlDmLwmi6d1AiPg9I5kfyVP-F_VNbCt\n-h0hl4gpYjZHNDgVSvruUb-8259yQmkZpkaJFQNl8chgJZSF3DeJicnWF8exEQ9-zPfzcFUVdmBG\n5yhuPiNXTeTj7t8TItn4u7zOQTaO5JxYzKXesORreTnD528SCktwFq-pItcu26Hr1UGXZrUa3KyW\nIW-QvhKw0AMyuy4lWtCUGURnRwfai_b_Rn1nWU-A1DEBLwdn4JTstATPDEnTLQeuj83wChKtlJ8C\nHZ6c3GlgsQiRk3EC_GV16yPxEMYDo-rVjqwelYCwzvVv-leJi8yuLVlW7XZ3atj5yMQWf0EgYri4\nlTKOE9jh65D-TOp1dipUedDDRqv2n_B1yFGt8M9XrOT78HWONCwltD4F2rsrHNFgHz6q0vlHzNLa\nyNJ9CH_UuQp3QRFkKqan-Bw=')
+    getEncryptDataWithDelay(arg0, arg1, 1)
+        .then(data => {
+            result = data;
+            done = true;
+        })
+        .catch(err => {
+            error = err;
+            done = true;
+        });
+
+    // 等待直到完成
+    const startTime = Date.now();
+    while (!done && Date.now() - startTime < 5000) {
+        // 空循环等待 - 注意：这不适用于长时间操作
+    }
+
+    if (error) {
+        throw error;
+    }
+    return result;
+}
+
+function getEncryptAuthSync(arg0, arg1) {
+    let result = null;
+    let error = null;
+    let done = false;
+
+    getEncryptAuthWithDelay(arg0, arg1, 1)
+        .then(data => {
+            result = data;
+            done = true;
+        })
+        .catch(err => {
+            error = err;
+            done = true;
+        });
+
+    // 等待直到完成
+    const startTime = Date.now();
+    while (!done && Date.now() - startTime < 5000) {
+        // 空循环等待 - 注意：这不适用于长时间操作
+    }
+
+    if (error) {
+        throw error;
+    }
+    return result;
+}
+
 //
-//     },
+// arg0 = '17689920735340088P5jA8AABAAABhDK7CLUAMBbZ4WSKHq_K062megEAPYgJE7Z8pHXPuTz23Y3qG942ZeAk_LhnubNiq8gAmz-X-AAA0016nuN1AvE3MHgyRXKP000055%7B%22ht%22:260,%22wt%22:421,%22x%22:265,%22y%22:156%7D{"touchList":[]}r2vujp0cy4xppq1gdejxvx28i98scf725a2yg7mk'
+// arg1 = "13130303032393939393530303032433633434132303831443330323343393136403932353331403832463337354233303031313030303"
+// ret = getEncryptDataSync(arg0,arg1)
+// console.log(ret)
+// console.log(ret.data==='iD0cT4_0AxlmIbw963dZ-toMgl5xRK9oXdBY8f8GelosJtyfC9i4c3m3VSj9rmJpu2grQjyRPYo_\nDIZRkqQNYJAjSSgM3f9HeK2ccFjV5_iDAKm-f5ScwMrxoVjeavnUs_EBxhDdh6BEJr2M56lV3fsj\nfTMpYY1w9pS-jwTTVGfu71R1QOsPOyqEbU2JGWj5n6V2NQeJBIHWYzWOJ5DkPHCxVKzvwmozmws2\napsaoqKDyMLIXHV2MxPC3PgaXAt3GLJu-i8_Bu0TKQa79jXnaS7AqcCZe_z05ExDNus3jOslmWgm\n9-2_Z0frnK8C3oiLyTjxtT6-ugqFhZcKqzvCksqCo3L6DJvlqWtwR7RuD_TsViHJ_azAE0-Rb-Oc\n3fu-G4WCdvVogt9LV_L4IOtbRp3yoyXLoKhwUiaIIUdGIx83sV3-0M7aQqiuVDquJHkWjTWBk6dN\nZ76I0sntLPCXj_YzeKZpWpT1A6vzikCuFgX270Rut18kdPxUqtCCLX2xnLeghH_YqDFAJYcwd921\n3XViq6Bpn379-H4Kh9Wyb2v9iLv3Dzu1LfrcMXIDCPCAkWqIMT88aSt9Y3aF-juBuxbFqqnqg2Ak\nZsqHSRdG3MlPr1yiMor6V_IIOOGT7mymubmpAiU2DfoORW5J2m4xzJwjbcap4MVIjmV68WhyPIPj\nVWSgxE0TVSD8UAgn0zg7R3IxUOHRcoDwPC0XuH54NNoOCNlDmLwmi6d1AiPg9I5kfyVP-F_VNbCt\n-h0hl4gpYjZHNDgVSvruUb-8259yQmkZpkaJFQNl8chgJZSF3DeJicnWF8exEQ9-zPfzcFUVdmBG\n5yhuPiNXTeTj7t8TItn4u7zOQTaO5JxYzKXesORreTnD528SCktwFq-pItcu26Hr1UGXZrUa3KyW\nIW-QvhKw0AMyuy4lWtCUGURnRwfai_b_Rn1nWU-A1DEBLwdn4JTstATPDEnTLQeuj83wChKtlJ8C\nHZ6c3GlgsQiRk3EC_GV16yPxEMYDo-rVjqwelYCwzvVv-leJi8yuLVlW7XZ3atj5yMQWf0EgYri4\nlTKOE9jh65D-TOp1dipUedDDRqv2n_B1yFGt8M9XrOT78HWONCwltD4F2rsrHNFgHz6q0vlHzNLa\nyNJ9CH_UuQp3QRFkKqan-Bw=')
+function test(){
+        arg0 = '17689920735340088P5jA8AABAAABhDK7CLUAMBbZ4WSKHq_K062megEAPYgJE7Z8pHXPuTz23Y3qG942ZeAk_LhnubNiq8gAmz-X-AAA0016nuN1AvE3MHgyRXKP000055%7B%22ht%22:260,%22wt%22:421,%22x%22:265,%22y%22:156%7D{"touchList":[]}r2vujp0cy4xppq1gdejxvx28i98scf725a2yg7mk'
+        arg1 = "13130303032393939393530303032433633434132303831443330323343393136403932353331403832463337354233303031313030303"
+        ret = f.getEncryptData(arg0,arg1)
+        console.log(ret)
+        console.log(ret.data==='iD0cT4_0AxlmIbw963dZ-toMgl5xRK9oXdBY8f8GelosJtyfC9i4c3m3VSj9rmJpu2grQjyRPYo_\nDIZRkqQNYJAjSSgM3f9HeK2ccFjV5_iDAKm-f5ScwMrxoVjeavnUs_EBxhDdh6BEJr2M56lV3fsj\nfTMpYY1w9pS-jwTTVGfu71R1QOsPOyqEbU2JGWj5n6V2NQeJBIHWYzWOJ5DkPHCxVKzvwmozmws2\napsaoqKDyMLIXHV2MxPC3PgaXAt3GLJu-i8_Bu0TKQa79jXnaS7AqcCZe_z05ExDNus3jOslmWgm\n9-2_Z0frnK8C3oiLyTjxtT6-ugqFhZcKqzvCksqCo3L6DJvlqWtwR7RuD_TsViHJ_azAE0-Rb-Oc\n3fu-G4WCdvVogt9LV_L4IOtbRp3yoyXLoKhwUiaIIUdGIx83sV3-0M7aQqiuVDquJHkWjTWBk6dN\nZ76I0sntLPCXj_YzeKZpWpT1A6vzikCuFgX270Rut18kdPxUqtCCLX2xnLeghH_YqDFAJYcwd921\n3XViq6Bpn379-H4Kh9Wyb2v9iLv3Dzu1LfrcMXIDCPCAkWqIMT88aSt9Y3aF-juBuxbFqqnqg2Ak\nZsqHSRdG3MlPr1yiMor6V_IIOOGT7mymubmpAiU2DfoORW5J2m4xzJwjbcap4MVIjmV68WhyPIPj\nVWSgxE0TVSD8UAgn0zg7R3IxUOHRcoDwPC0XuH54NNoOCNlDmLwmi6d1AiPg9I5kfyVP-F_VNbCt\n-h0hl4gpYjZHNDgVSvruUb-8259yQmkZpkaJFQNl8chgJZSF3DeJicnWF8exEQ9-zPfzcFUVdmBG\n5yhuPiNXTeTj7t8TItn4u7zOQTaO5JxYzKXesORreTnD528SCktwFq-pItcu26Hr1UGXZrUa3KyW\nIW-QvhKw0AMyuy4lWtCUGURnRwfai_b_Rn1nWU-A1DEBLwdn4JTstATPDEnTLQeuj83wChKtlJ8C\nHZ6c3GlgsQiRk3EC_GV16yPxEMYDo-rVjqwelYCwzvVv-leJi8yuLVlW7XZ3atj5yMQWf0EgYri4\nlTKOE9jh65D-TOp1dipUedDDRqv2n_B1yFGt8M9XrOT78HWONCwltD4F2rsrHNFgHz6q0vlHzNLa\nyNJ9CH_UuQp3QRFkKqan-Bw=')
+
+    }
+
+// setInterval(
+//     test,
 //     1
 // )
 // setTimeout(

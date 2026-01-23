@@ -19,8 +19,14 @@
       <paths name="爬虫001">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/ec2-user/jdCaptcha" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.venv" />
+            <excludedPath local="true" path="$PROJECT_DIR$/data" />
+            <excludedPath local="true" path="$PROJECT_DIR$/__pycache__" />
+          </excludedPaths>
         </serverdata>
       </paths>
       <paths name="爬虫001 (project level)">
@@ -33,15 +39,27 @@
       <paths name="联想001">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/opt/captcha/jdCaptcha" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/__pycache__" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.venv" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
+            <excludedPath local="true" path="$PROJECT_DIR$/data" />
+          </excludedPaths>
         </serverdata>
       </paths>
       <paths name="联想002">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/opt/captcha/jdCaptcha" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.venv" />
+            <excludedPath local="true" path="$PROJECT_DIR$/__pycache__" />
+            <excludedPath local="true" path="$PROJECT_DIR$/data" />
+          </excludedPaths>
         </serverdata>
       </paths>
       <paths name="联想003">
