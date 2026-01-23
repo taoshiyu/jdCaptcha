@@ -14,7 +14,7 @@ def test():
 def captcha_solve():
     data = request.data.decode('utf-8')
     data = json.loads(data)
-    logger.info(data)
+    # logger.info(data)
     options = data.get('options')
     location_url = data.get('location_url')
     proxy_url = data.get('proxy_url')
@@ -27,8 +27,6 @@ def captcha_solve():
         return {'code':1,'msg':'失败'}
     else:
         return {'code':0,'msg':'成功','data':result}
-
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5051)
