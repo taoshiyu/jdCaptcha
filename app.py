@@ -1,8 +1,10 @@
-from bustapi import BustAPI,request
+
+from flask import Flask,request
 import json
 from verify.captcha_solver import JDCaptchaSolver
 from loguru import logger
-app = BustAPI()
+app = Flask(__name__)
+
 from ddddocr import DdddOcr
 ocr_object = DdddOcr(det=False,show_ad=False)
 import base64
@@ -22,7 +24,7 @@ def test():
 def captcha_solve():
     data = request.data.decode('utf-8')
     data = json.loads(data)
-    # logger.info(data)
+    logger.info(data)
     options = data.get('options')
     location_url = data.get('location_url')
     proxy_url = data.get('proxy_url')

@@ -11,17 +11,18 @@ from urllib.parse import urlparse
 
 import requests
 from PIL import Image
+from utils.decrators import timer
 from loguru import logger
 from requests import Session
 
-from infer import similarity_content
+from infer import similarity_content,similarity_onnx_content
 from verify.utils import js_now
 
 lock = threading.Lock()
-from yolo_infer import YoloDetector
+from yolo_infer import YoloOnnxDetector
 
-detector = YoloDetector(
-    weights="runs/detect/captcha_run/weights/best.pt",
+detector = YoloOnnxDetector(
+    weights="runs/detect/captcha_run/weights/best.onnx",
 )
 
 
@@ -147,11 +148,11 @@ class ThreadSafeEncryptor:
     def __init__(self):
         self._bridge = NodeBridge()  # 之前定义的桥接类
         self._lock = threading.Lock()  # 定义互斥锁
-
+    @timer
     def encrypt(self, a, b):
         with self._lock:  # 确保同一时间只有一个线程在读写管道
             return self._bridge.encrypt(a, b)
-
+    @timer
     def captchaAuth(self, a):
         with self._lock:
             return self._bridge.captchaAuth(a)
@@ -619,7 +620,7 @@ class JDCaptchaSolver:
         crop_similarity = []
         for bbox in bboxes:
             crop = b1_img.crop(bbox)
-            similarity = similarity_content(crop, target_crop)
+            similarity = similarity_onnx_content(crop, target_crop)
             crop_similarity.append((similarity, bbox))
         max_similarity = max(crop_similarity, key=lambda x: x[0])
         right_bbox = max_similarity[1]
@@ -646,18 +647,21 @@ class JDCaptchaSolver:
         #         f.write(f'{file_1[3:]} {file_2[3:]} 0\n')
         #     else:
         #         f.write(f'{file_1[3:]} {file_2[3:]} 1\n')
-
+    @timer
     def solve(self):
         # todo:验证失败的图片应该保持下了用来优化模型
+        logger.info('JD captcha solver start.')
         self._require_captcha()
         fp_result = self._request_fp()
         self.state['st'] = fp_result['st']
         check_result = self._request_check()
+        logger.info('JD captcha solver _request_check.')
         if not check_result:
             return
         self.state['st'] = check_result['st']
         img_dict = json.loads(check_result['img'])
         result = self.check_captcha(img_dict)
+        logger.info('JD captcha solver check_captcha.')
         retry_times = 1
         while ((not result) or result['code'] != 0) and retry_times > 0:
             retry_times -= 1
@@ -670,6 +674,7 @@ class JDCaptchaSolver:
             if result:
                 return {'x-captcha-session': self.state['sessionId'], 'x-captcha-token': result['vt']}
         else:
+            logger.info('JD captcha solver check_captcha success.')
             if result and result.get('code') == 0:
                 return {'x-captcha-session': self.state['sessionId'], 'x-captcha-token': result['vt']}
 
@@ -909,8 +914,7 @@ def test_solver():
         options = response.json().get('Options')
     except:
         print(response.text)
-    captcha_solver = JDCaptchaSolver(options, proxy_url=proxy,
-                                     location_url='https://www.airchina.com.cn/flight/oneway/pek-llv/2026-01-26')
+    captcha_solver = JDCaptchaSolver(options, proxy_url=proxy, location_url='https://www.airchina.com.cn/flight/oneway/pek-llv/2026-01-26')
     time.sleep(1)
     try:
         result = captcha_solver.solve()
