@@ -15,6 +15,16 @@ def solve_ocr(img):
     result = ocr_object.classification(b2_content)
     return result
 
+def solve_slide(big_str,small_img):
+    bg_base64 = big_str
+    slider_base64 = small_img
+    bg_bytes = base64.b64decode(bg_base64.split(',')[-1])
+    slider_bytes = base64.b64decode(slider_base64.split(',')[-1])
+    result = ocr_object.slide_match(slider_bytes, bg_bytes)
+    slideX = result['target'][0]
+    slideX = round(int(slideX) / 0.52)
+    return slideX
+
 
 @app.get('/test')
 def test():
@@ -37,6 +47,15 @@ def captcha_solve():
         return {'code':1,'msg':'失败'}
     else:
         return {'code':0,'msg':'成功','data':result}
+
+@app.post('/solve_slide')
+def slide_solve():
+    data = request.data.decode('utf-8')
+    data = json.loads(data)
+    big_msg = data.get('big_img')
+    small_msg = data.get('small_img')
+    result = solve_slide(big_msg,small_msg)
+    return {'code':0,'msg':result,'data':result}
 
 
 @app.post('/solve_ocr')
